@@ -6,5 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'jogo-traducao';
+
+  Painel: boolean = true
+  vitoriaOuDerrota: string
+
+  encerrarJogo(tipo: string) {
+    this.vitoriaOuDerrota = tipo
+    this.Painel = false
+  }
+
+  reiniciarJogo() {
+    this.vitoriaOuDerrota = undefined
+    this.Painel = true
+  }
+
 }
