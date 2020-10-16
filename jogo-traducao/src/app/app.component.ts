@@ -7,17 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  Painel: boolean = true
-  vitoriaOuDerrota: string
-
-  encerrarJogo(tipo: string) {
-    this.vitoriaOuDerrota = tipo
-    this.Painel = false
+  public jogoEmAndamento: boolean = true
+  public tipoEncerramento: string
+  
+  public encerrarJogo(tipo: string): void {
+    this.jogoEmAndamento = false
+    this.tipoEncerramento = tipo
   }
-
-  reiniciarJogo() {
-    this.vitoriaOuDerrota = undefined
-    this.Painel = true
-  }
-
 }

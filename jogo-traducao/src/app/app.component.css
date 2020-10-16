@@ -1,8 +1,4 @@
-.container {
-    text-align: center;
-    margin-top: 18%;
-}
-
-button {
-    margin-top: 15px;
+p {
+    font-size: 25px;
+    color: red;
 }

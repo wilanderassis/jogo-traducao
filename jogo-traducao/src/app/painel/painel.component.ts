@@ -1,51 +1,78 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
+
 import { Frase } from '../shared/frase.model'
-import { FRASE } from './frase-mock'
+import { FRASES } from './frases-mock'
 
 @Component({
   selector: 'app-painel',
   templateUrl: './painel.component.html',
   styleUrls: ['./painel.component.css']
 })
-export class PainelComponent implements OnInit {
+export class PainelComponent implements OnInit, OnDestroy {
 
-  instrucao: string = 'Traduza a frase:'
-  frases: Frase[] = FRASE
-  rodada: number = 0
-  rodadaAtual: Frase
-  resposta: string = ''
-  progresso: number = 0
-  tentativas: number = 3
-  @Output() encerrarJogo: EventEmitter<string> = new EventEmitter()
+  public frases: Frase[] = FRASES
+  public instrucao: string = 'Traduza a frase:'
+  public resposta: string = ''
 
-  constructor() { this.atualizarRodada() }
+  public rodada: number = 0
+  public rodadaFrase: Frase
 
-  atualizarRodada() {
-    this.rodadaAtual = this.frases[this.rodada]
-    this.resposta = ''
+  public progresso: number = 0
+
+  public tentativas: number = 3
+
+  @Output() public encerrarJogo: EventEmitter<string> = new EventEmitter()
+
+  constructor() { 
+    this.atualizaRodada()
   }
 
-  atualizarResposta(resposta: Event) {
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    console.log('Componente painel foi destruído')
+  }
+
+  public atualizaResposta(resposta: Event): void {
     this.resposta = (<HTMLInputElement>resposta.target).value
+    //console.log(this.resposta)
   }
 
-  verificarResposta() {
-    if (this.resposta === this.rodadaAtual.frasePtbr) {
+  public verificarResposta(): void {
+    if(this.rodadaFrase.frasePtBr == this.resposta) {
+
+      //trocar pergunta da rodada
       this.rodada++
-      this.progresso += (100 / this.frases.length)
-      if (this.rodada === this.frases.length) {
+
+      //progresso
+      this.progresso = this.progresso + (100 / this.frases.length)
+
+      //
+      if(this.rodada === 4) {
         this.encerrarJogo.emit('vitoria')
       }
-      this.atualizarRodada()
+
+      //atualiza o objeto rodadaFrase 
+      this.atualizaRodada()
+
     } else {
+      //diminuir a variável tentativas
       this.tentativas--
-      if (this.tentativas === -1) {
+
+      if(this.tentativas === -1) {
         this.encerrarJogo.emit('derrota')
       }
     }
   }
 
-  ngOnInit(): void {
+  public atualizaRodada(): void {
+
+    //define a frase da rodada com base em alguma lógica
+    this.rodadaFrase = this.frases[this.rodada]
+
+    //limpar a resposta
+    this.resposta = ''
   }
 
 }

@@ -1,24 +1,22 @@
 <app-topo></app-topo>
-<div *ngIf="Painel; else statusPartida">
+
+<div *ngIf="jogoEmAndamento; else fimDeJogo ">
     <app-painel (encerrarJogo)="encerrarJogo($event)"></app-painel>
 </div>
-<ng-template #statusPartida>
-    <div class="container" *ngIf="vitoriaOuDerrota === 'derrota'; else vitoria">
+<ng-template #fimDeJogo>
+    <div *ngIf="tipoEncerramento === 'derrota'; else fimDeJogoVitoria" class="container" style="margin-top: 50px">
         <div class="row">
             <div class="col">
-                <h3 style="color: red;">Fim de jogo, você perdeu!</h3>
-                <button type="button" class="btn btn-primary" (click)="reiniciarJogo()">Jogar novamente</button>
+                <h3 style="color: red">Fim de jogo, infelizmente você perdeu :S</h3>
             </div>
         </div>
     </div>
 </ng-template>
-
-<ng-template #vitoria>
-    <div class="container">
+<ng-template #fimDeJogoVitoria>
+    <div class="container" style="margin-top: 50px">
         <div class="row">
             <div class="col">
-                <h3 style="color: green;">Parabéns, você ganhou!</h3>
-                <button type="button" class="btn btn-primary" (click)="reiniciarJogo()">Jogar novamente</button>
+                <h3 style="color: green">Fim de jogo, você ganhou :D</h3>
             </div>
         </div>
     </div>
